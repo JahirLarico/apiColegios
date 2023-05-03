@@ -29,7 +29,7 @@ class Apoderado(models.Model):
         return self.nombreApoderado
 
 class Mensaje(models.Model):
-    estudiante = models.ForeignKey(Estudiantes,on_delete=models.CASCADE, retaleted_name="mensajes")
+    estudiante = models.ForeignKey(Estudiantes,on_delete=models.CASCADE, related_name="mensajes")
     descripcionMensaje = models.CharField(max_length=100)
     fotoMensaje = models.ImageField(upload_to='mensajes')
     fechaMensaje = models.DateField(null=True)

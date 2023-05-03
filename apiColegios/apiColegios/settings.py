@@ -25,12 +25,15 @@ SECRET_KEY = 'django-insecure-dgb9l2i_$t@&5mg(uc9)mv(eln#f(p6=q@8!4el#8pt5qnf2b3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'api',
+    'rest_framework',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -121,3 +126,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+#Configuracion de la carpeta donde se guardan las fotos 
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+#Utilizar el modelo con los campos agregados en el userAdmin
+AUTH_USER_MODEL = 'api.CustomUser'
+
+import os
+
+#Variables necesarias para los archivos estaticos y que se usaran en url.py
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#Carpeta que creeamos 
+MEDIA_URL = '/media/'
+
