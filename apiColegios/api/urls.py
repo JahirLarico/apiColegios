@@ -17,6 +17,7 @@ urlpatterns = [
     path('apoderados/<str:nombreEstudiante>/', views.ApoderaodsListByEstudiante.as_view(), name='apoderados_list_by_colegio'),
     path('apoderados/<str:nombreEstudiante>/<str:nombreApoderado>/', views.unApoderadoByEstudiante.as_view(), name='un_apoderado_by_colegio'),
     path('mensajes/', views.MensajesList.as_view(), name='mensajes_list'),
-    path('mensajes/<str:nombreEstudiante>/', views.MensajesListByEstudiante.as_view(), name='mensajes_list_by_colegio'),
-    path('mensajes/<str:nombreEstudiante>/<int:idMensaeje>/', views.unMensajeByEstudiante.as_view(), name='un_mensaje_by_colegio'),
+    #Aprobados los de abajo
+    path('mensajes/<int:idEstudiante>/', views.MensajesListByEstudiante.as_view(), name='mensajes_list_by_colegio'),
+    path('mensajes/<int:idEstudiante>/<int:idMensaeje>/', views.unMensajeByEstudiante.as_view(), name='un_mensaje_by_colegio'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

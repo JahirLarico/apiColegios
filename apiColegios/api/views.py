@@ -117,36 +117,37 @@ class MensajesListByEstudiante(APIView):
         mensajees = Mensaje.objects.filter(estudiante=estudiante)
         data = MensajeSerializer(mensajees, many=True).data
         return Response(data)
-    def post(self, request,nombreEstudiante):
+    def post(self, request, nombreEstudiante):
         serializer = MensajeSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
             mensaje = serializer.instance
-            mensaje.fotoMensaje = request.FILES.get('fotoMensaje')
-            mensaje.save()
+            serializer.fotoMensaje = request.FILES.get('fotoMensaje')
+            serializer.save()
             serializer_response = MensajeSerializer(mensaje)
             return Response(serializer_response.data)
         return Response(serializer.errors)
 
 class unMensajeByEstudiante(APIView):
-    def get(self, request, nombreEstudiante, idMensaeje):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
+    def get(self, request, idEstudiante, idMensaeje):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
         mensaje = Mensaje.objects.get(estudiante=estudiante, id=idMensaeje)
         data = MensajeSerializer(mensaje).data
         return Response(data)
-    def put (self, request, nombreEstudiante,idMensaeje):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
+    def put(self, request, idEstudiante, idMensaeje):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
         mensaje = Mensaje.objects.get(estudiante=estudiante, id=idMensaeje)
         serializer = MensajeSerializer(mensaje, data=request.data)
         if serializer.is_valid():
             mensaje.fotoMensaje.delete()
             mensaje.fotoMensaje = request.FILES.get('fotoMensaje')
+            mensaje.descripcionMensaje = request.data.get('descripcionMensaje')
+            mensaje.fechaMensaje = request.data.get('fechaMensaje')
             mensaje.save()
             serializer_response = MensajeSerializer(mensaje)
             return Response(serializer_response.data)
         return Response(serializer.errors)
-    def delete(self, request, nombreEstudiante, idMensaeje):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
+    def delete(self, request, idEstudiante, idMensaeje):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
         mensaje = Mensaje.objects.get(estudiante=estudiante, id=idMensaeje)
         mensaje.fotoMensaje.delete
         mensaje.delete()
