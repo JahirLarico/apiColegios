@@ -22,42 +22,43 @@ class EstudiantesList(APIView):
         return Response(data)
 
 class EstudiantesListByColegio(APIView):
-    def get (self, request, nombreColegio):
-        colegio = CustomUser.objects.get(nombreCole=nombreColegio)
+    def get (self, request, idColegio):
+        colegio = CustomUser.objects.get(id=idColegio)
         estudiantes = Estudiantes.objects.filter(colegio=colegio)
         data = EstudiantesSerializer(estudiantes, many=True).data
         return Response(data)
-    def post(self, request,nombreColegio):
+    def post(self, request,idColegio):
         serializer = EstudiantesSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            estudiante = serializer.instance
-            estudiante.fotoEstudiante = request.FILES.get('fotoEstudiante')
-            estudiante.save()
-            serializer_response = EstudiantesSerializer(estudiante)
-            return Response(serializer_response.data)
+            serializer.fotoEstudiante = request.FILES.get('fotoEstudiante')
+            return Response(serializer.data)
         return Response(serializer.errors)
     
 class unEstudianteByColegio(APIView):
-    def get(self, request, nombreColegio, nombreEstudiante):
-        colegio = CustomUser.objects.get(nombreCole=nombreColegio)
-        estudiante = Estudiantes.objects.get(colegio=colegio, nombreEstudiante=nombreEstudiante)
+    def get(self, request, idColegio, idEstudiante):
+        colegio = CustomUser.objects.get(id=idColegio)
+        estudiante = Estudiantes.objects.get(colegio=colegio, id=idEstudiante)
         data = EstudiantesSerializer(estudiante).data
         return Response(data)
-    def put(self, request, nombreColegio, nombreEstudiante):
-        colegio = CustomUser.objects.get(nombreCole=nombreColegio)
-        estudiante = Estudiantes.objects.get(colegio=colegio, nombreEstudiante=nombreEstudiante)
+    def put(self, request, idColegio, idEstudiante):
+        colegio = CustomUser.objects.get(id=idColegio)
+        estudiante = Estudiantes.objects.get(colegio=colegio, id=idEstudiante)
         serializer = EstudiantesSerializer(estudiante, data=request.data)
         if serializer.is_valid():
             estudiante.fotoEstudiante.delete()
+            estudiante.nombreEstudiante = request.data.get('nombreEstudiante')
+            estudiante.apellidoEstudiante = request.data.get('apellidoEstudiante')
             estudiante.fotoEstudiante = request.FILES.get('fotoEstudiante')
+            estudiante.edadEstudiante = request.data.get('edadEstudiante')
+            estudiante.gradoEstudiante = request.data.get('gradoEstudiante')
             estudiante.save()
             serializer_response = EstudiantesSerializer(estudiante)
             return Response(serializer_response.data)
         return Response(serializer.errors)
-    def delete(self, request, nombreColegio, nombreEstudiante):
-        colegio = CustomUser.objects.get(nombreCole=nombreColegio)
-        estudiante = Estudiantes.objects.get(colegio=colegio, nombreEstudiante=nombreEstudiante)
+    def delete(self, request, idColegio, idEstudiante):
+        colegio = CustomUser.objects.get(id=idColegio)
+        estudiante = Estudiantes.objects.get(colegio=colegio, id=idEstudiante)
         estudiante.fotoEstudiante.delete
         estudiante.delete()
         return Response("Estudiante eliminado")
@@ -69,39 +70,37 @@ class ApoderadosList(APIView):
         return Response(data)
 
 class ApoderaodsListByEstudiante(APIView):
-    def get(self, request, nombreEstudiante):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
+    def get(self, request, idEstudiante):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
         apoderados = Apoderado.objects.filter(estudiante=estudiante)
         data = ApoderadoSerializer(apoderados, many=True).data
         return Response(data)
-    def post(self, request,nombreEstudiante):
+    def post(self, request,idEstudiante):
         serializer = ApoderadoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            apoderado = serializer.instance
-            apoderado.save()
-            serializer_response = ApoderadoSerializer(apoderado)
-            return Response(serializer_response.data)
+            return Response(serializer.data)
         return Response(serializer.errors)
 
+
 class unApoderadoByEstudiante(APIView):
-    def get(self, request, nombreEstudiante, nombreApoderado):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
-        apoderado = Apoderado.objects.get(estudiante=estudiante, nombreApoderado=nombreApoderado)
+    def get(self, request, idEstudiante, idApoderado):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
+        apoderado = Apoderado.objects.get(estudiante=estudiante, id=idApoderado)
         data = ApoderadoSerializer(apoderado).data
         return Response(data)
-    def put(self, request, nombreEstudiante, nombreApoderado):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
-        apoderado = Apoderado.objects.get(estudiante=estudiante, nombreApoderado=nombreApoderado)
+    def put(self, request, idEstudiante, idApoderado):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
+        apoderado = Apoderado.objects.get(estudiante=estudiante, id=idApoderado)
         serializer = ApoderadoSerializer(apoderado, data=request.data)
         if serializer.is_valid():
-            apoderado.save()
+            serializer.save()
             serializer_response = ApoderadoSerializer(apoderado)
             return Response(serializer_response.data)
         return Response(serializer.errors)
-    def delete(self, request, nombreEstudiante, nombreApoderado):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
-        apoderado = Apoderado.objects.get(estudiante=estudiante, nombreApoderado=nombreApoderado)
+    def delete(self, request, idEstudiante, idApoderado):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
+        apoderado = Apoderado.objects.get(estudiante=estudiante, id=idApoderado)
         apoderado.delete()
         return Response("Apoderado eliminado")
 
@@ -112,19 +111,17 @@ class MensajesList(APIView):
         return Response(data)
     
 class MensajesListByEstudiante(APIView):
-    def get(self, request, nombreEstudiante):
-        estudiante = Estudiantes.objects.get(nombreEstudiante=nombreEstudiante)
+    def get(self, request, idEstudiante):
+        estudiante = Estudiantes.objects.get(id=idEstudiante)
         mensajees = Mensaje.objects.filter(estudiante=estudiante)
         data = MensajeSerializer(mensajees, many=True).data
         return Response(data)
-    def post(self, request, nombreEstudiante):
+    def post(self, request, idEstudiante):
         serializer = MensajeSerializer(data=request.data)
         if serializer.is_valid():
-            mensaje = serializer.instance
             serializer.fotoMensaje = request.FILES.get('fotoMensaje')
             serializer.save()
-            serializer_response = MensajeSerializer(mensaje)
-            return Response(serializer_response.data)
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 class unMensajeByEstudiante(APIView):
