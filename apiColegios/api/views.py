@@ -16,8 +16,10 @@ class ColegiosList(APIView):
         return Response(data)
 
 class ColegioDetail(APIView):
-    def get(self, request, nombreColegio, contraseñaColegio):
-        colegio = CustomUser.objects.get(nombreCole=nombreColegio, contraNoEncriptada=contraseñaColegio)
+    def get(self, request):
+        usuario = request.GET.get('usuario')
+        clave = request.GET.get('clave')
+        colegio = CustomUser.objects.get(nombreCole=usuario, contraNoEncriptada=clave)
         data = CustomUserSerializer(colegio).data
         return Response(data)
 
