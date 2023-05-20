@@ -29,7 +29,11 @@ ALLOWED_HOSTS = ["*"]
 CSRF_COOKIE_SECURE = False
 
 # Application definition
-
+CORS_ALLOWED_ORIGINS = [
+    'https://jahir.frankalvarez.dev',
+    # Otros orígenes confiables...
+]
+CSRF_TRUSTED_ORIGINS = ['https://jahir.frankalvarez.dev']
 INSTALLED_APPS = [
     'api',
     'rest_framework',

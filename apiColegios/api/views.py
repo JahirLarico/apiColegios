@@ -14,7 +14,12 @@ class ColegiosList(APIView):
         Colegios = CustomUser.objects.all()
         data = CustomUserSerializer(Colegios, many=True).data
         return Response(data)
-
+    def post(self, request):
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
 class ColegioDetail(APIView):
     def get(self, request):
         usuario = request.GET.get('usuario')
