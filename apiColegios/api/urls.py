@@ -26,11 +26,5 @@ urlpatterns = [
     path('estudiantes/<int:idColegio>/', views.EstudiantesListByColegio.as_view(), name='estudiantes_list_by_colegio'),
     # Aqui es la ruta para ver todo lo de un Estudiante y hacer PUT DELETE 
     path('estudiantes/<int:idColegio>/<int:idEstudiante>/', views.unEstudianteByColegio.as_view(), name='un_estudiante_by_colegio'),
-    path('apoderados/', views.ApoderadosList.as_view(), name='apoderados_list'),
-    path('apoderados/<int:idEstudiante>/', views.ApoderaodsListByEstudiante.as_view(), name='apoderados_list_by_colegio'),
-    path('apoderados/<int:idEstudiante>/<int:idApoderado>/', views.unApoderadoByEstudiante.as_view(), name='un_apoderado_by_colegio'),
-    path('mensajes/', views.MensajesList.as_view(), name='mensajes_list'),
-    #Aprobados los de abajo
-    path('mensajes/<int:idEstudiante>/', views.MensajesListByEstudiante.as_view(), name='mensajes_list_by_colegio'),
-    path('mensajes/<int:idEstudiante>/<int:idMensaeje>/', views.unMensajeByEstudiante.as_view(), name='un_mensaje_by_colegio'),
+ 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
