@@ -4,7 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     contraNoEncriptada = models.CharField(max_length=100)
-    ubicacionCole = models.CharField(max_length=100)
+    ubicacionCole = models.CharField(max_length=100 , null=True)
+    nombreDueno = models.CharField(max_length=100, default="")
+    apellidoDueno = models.CharField(max_length=100, default="")
     nombreCole = models.CharField(max_length=100)
 
 class Estudiantes(models.Model):
