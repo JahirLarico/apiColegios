@@ -13,7 +13,7 @@ class Estudiantes(models.Model):
     colegio = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="estudiantes")
     nombreEstudiante = models.CharField(max_length=100)
     apellidoEstudiante = models.CharField(max_length=100)
-    fotoEstudiante = models.ImageField(upload_to='estudiantes')
+    fotoEstudiante = models.ImageField(upload_to='estudiantes', null=True)
     edadEstudiante = models.IntegerField()
     nombreApoderado = models.CharField(max_length=100, default="")
     apellidoApoderado = models.CharField(max_length=100 , default="")
