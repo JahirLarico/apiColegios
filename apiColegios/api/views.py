@@ -59,12 +59,12 @@ class unEstudianteByColegio(APIView):
         estudiante = Estudiantes.objects.get(colegio=colegio, id=idEstudiante)
         serializer = EstudiantesSerializer(estudiante, data=request.data)
         if serializer.is_valid():
-            estudiante.fotoEstudiante.delete()
+            #Linea que era para eliminar la imagen
+            #estudiante.fotoEstudiante.delete()
             estudiante.nombreEstudiante = request.data.get('nombreEstudiante')
             estudiante.apellidoEstudiante = request.data.get('apellidoEstudiante')
             estudiante.fotoEstudiante = request.FILES.get('fotoEstudiante')
             estudiante.edadEstudiante = request.data.get('edadEstudiante')
-            estudiante.gradoEstudiante = request.data.get('gradoEstudiante')
             estudiante.save()
             serializer_response = EstudiantesSerializer(estudiante)
             return Response(serializer_response.data)
