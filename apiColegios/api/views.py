@@ -63,7 +63,7 @@ class unEstudianteByColegio(APIView):
             #estudiante.fotoEstudiante.delete()
             estudiante.nombreEstudiante = request.data.get('nombreEstudiante')
             estudiante.apellidoEstudiante = request.data.get('apellidoEstudiante')
-            estudiante.fotoEstudiante = request.FILES.get('fotoEstudiante')
+            #estudiante.fotoEstudiante = request.FILES.get('fotoEstudiante')
             estudiante.edadEstudiante = request.data.get('edadEstudiante')
             estudiante.save()
             serializer_response = EstudiantesSerializer(estudiante)
