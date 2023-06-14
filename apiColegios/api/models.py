@@ -4,11 +4,12 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     contraNoEncriptada = models.CharField(max_length=100)
-    ubicacionCole = models.CharField(max_length=100 , null=True)
+    ubicacionCole = models.CharField(max_length=100 , null=True, blank=True)
     nombreDueno = models.CharField(max_length=100)
     apellidoDueno = models.CharField(max_length=100)
     nombreCole = models.CharField(max_length=100)
     confirmacion = models.BooleanField(default=False)
+    password = models.CharField(max_length=100, blank=True, null=True)
 
 class Estudiantes(models.Model):
     colegio = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="estudiantes")
