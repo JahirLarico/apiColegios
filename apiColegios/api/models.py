@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
     nombreDueno = models.CharField(max_length=100)
     apellidoDueno = models.CharField(max_length=100)
     nombreCole = models.CharField(max_length=100)
+    confirmacion = models.BooleanField(default=False)
 
 class Estudiantes(models.Model):
     colegio = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="estudiantes")

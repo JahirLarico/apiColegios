@@ -11,4 +11,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
     estudiantes = EstudiantesSerializer(many=True, read_only=True)
     class Meta:
         model = CustomUser
-        fields = ['id','username','contraNoEncriptada','ubicacionCole','nombreCole','nombreDueno','apellidoDueno','estudiantes']
+        fields = ['id','username','contraNoEncriptada','ubicacionCole','nombreCole','nombreDueno','apellidoDueno','confirmacion','estudiantes']
